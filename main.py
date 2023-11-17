@@ -14,7 +14,7 @@ class DefaultTemplate(Scene):
             real_slots.append(sloti)
             slots.add(sloti)
             slots.center()
-            self.play(Create(sloti))
+            self.play(Write(sloti))
             self.wait()
 
 
@@ -25,7 +25,7 @@ class DefaultTemplate(Scene):
         label4 = Integer(number=5)
         label4.move_to(slot4)
         slot4.add(label4)
-        self.play(Create(slot4))
+        self.play(Write(slot4))
         self.wait()
         real_slots.append(slot4)
         slots = VGroup(*real_slots)
@@ -37,15 +37,14 @@ class DefaultTemplate(Scene):
         label5 = Integer(number=6)
         label5.move_to(slot5)
         slot5.add(label5)
-        self.play(Create(slot5))
-        self.play(slot5.animate.set_fill(RED_A, opacity=1), label5.animate.set_fill(WHITE, opacity=1))
+        self.play(Write(slot5))
+        self.play(Indicate(slot5, scale_factor=0.9, color=RED_A))
         self.wait()
         # self.play(slot5.animate.set_fill(BLUE, opacity=1).add(label5))
         real_slots.append(slot5)
         slots = VGroup(*real_slots)
 
-        median = SurroundingRectangle(real_slots[2], buff=0.1)
-        self.play(Create(median), slot5.animate.set_fill(BLUE, opacity=1), label5.animate.set_fill(WHITE, opacity=1))
+        self.play(Circumscribe(real_slots[2]))
         self.wait()
         # self.play(Uncreate(median))
         # self.wait()
@@ -56,7 +55,6 @@ class DefaultTemplate(Scene):
 
         # self.play(Uncreate(median), left.animate.shift(3*DOWN + 0.5*LEFT), right.animate.shift(3*DOWN + 0.5*RIGHT))
         self.play(left.animate.shift(3*DOWN + 0.5*LEFT), right.animate.shift(3*DOWN + 0.5*RIGHT))
-        self.play(Uncreate(median))
         self.wait()
         
 
