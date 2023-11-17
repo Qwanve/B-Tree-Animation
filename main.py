@@ -40,21 +40,25 @@ class DefaultTemplate(Scene):
         self.play(Write(slot5))
         self.play(Indicate(slot5, scale_factor=0.9, color=RED_A))
         self.wait()
-        # self.play(slot5.animate.set_fill(BLUE, opacity=1).add(label5))
         real_slots.append(slot5)
         slots = VGroup(*real_slots)
 
         self.play(Circumscribe(real_slots[2]))
         self.wait()
-        # self.play(Uncreate(median))
-        # self.wait()
 
         left = VGroup(*real_slots[0:2])
         median = real_slots[2]
         right = VGroup(*real_slots[3:])
 
-        # self.play(Uncreate(median), left.animate.shift(3*DOWN + 0.5*LEFT), right.animate.shift(3*DOWN + 0.5*RIGHT))
-        self.play(left.animate.shift(3*DOWN + 0.5*LEFT), right.animate.shift(3*DOWN + 0.5*RIGHT))
+        # end = left.copy().shift(3*DOWN + 0.5*LEFT).get_corner(UP+RIGHT)
+        # larrow = Arrow(start=UP, end=1*DOWN+0.5*LEFT)
+        larrow = Arrow().put_start_and_end_on(median.get_corner(DOWN+LEFT), left.get_edge_center(UP) + (3*DOWN + 0.5*LEFT))
+        rarrow = Arrow().put_start_and_end_on(median.get_corner(DOWN+RIGHT), right.get_edge_center(UP) + (3*DOWN + 0.5*RIGHT))
+        # larrow.next_to(median, DOWN+LEFT, buff=0)
+
+        self.play(left.animate.shift(3*DOWN + 0.5*LEFT), right.animate.shift(3*DOWN + 0.5*RIGHT), Create(larrow), Create(rarrow))
+        tree = VGroup(*[left,larrow, median,rarrow, right])
+        self.play(tree.animate.center())
         self.wait()
         
 
